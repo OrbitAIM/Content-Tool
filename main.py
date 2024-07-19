@@ -12,8 +12,12 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 import openai
 import os
-openai_api_key = os.getenv('OPENAI_API_KEY')
-print(openai_api_key)
+import dotenv
+
+dotenv.load_dotenv()
+
+openai_api_key = os.getenv('OPEN_AI_KEY')
+
 # if not openai_api_key:
 #     raise ValueError("No OpenAI API key found in environment variables. Please set the 'OPENAI_API_KEY' environment variable.")
 # openai.api_key = openai_api_key
@@ -25,9 +29,9 @@ docs = pdf_loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 splits = text_splitter.split_documents(docs)
 
-embeddings = OpenAIEmbeddings(api_key='sk-proj-KB64iQAlENuFceKD32iaT3BlbkFJSGnSkcABi8TBjxJCWU7d')
+embeddings = OpenAIEmbeddings(api_key=openai_api_key)
 # print(embeddings)
-llm = ChatOpenAI(model="gpt-4o",api_key='sk-proj-KB64iQAlENuFceKD32iaT3BlbkFJSGnSkcABi8TBjxJCWU7d')
+llm = ChatOpenAI(model="gpt-4o",api_key=openai_api_key)
 # print(llm.invoke("what is open ai"))
 vector = Chroma.from_documents(splits,embeddings)
 retriever = vector.as_retriever()
