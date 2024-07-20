@@ -25,6 +25,6 @@ jobs:
 
     - name: Run Streamlit
       env:
-        OPENAI_API_KEY: ${{ secrets.API_KEY }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
         streamlit run main.py
