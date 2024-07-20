@@ -32,8 +32,8 @@ else:
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         splits = text_splitter.split_documents(docs)
 
-        embeddings = OpenAIEmbeddings(api_key='sk-proj-KB64iQAlENuFceKD32iaT3BlbkFJSGnSkcABi8TBjxJCWU7d')
-        llm = ChatOpenAI(model="gpt-4o", api_key='sk-proj-KB64iQAlENuFceKD32iaT3BlbkFJSGnSkcABi8TBjxJCWU7d')
+        embeddings = OpenAIEmbeddings(api_key='sk-proj-vClQhib9sJrFtPF1hIfCT3BlbkFJytrwaOhtOsbYkwwJFyeu')
+        llm = ChatOpenAI(model="gpt-4o", api_key='sk-proj-vClQhib9sJrFtPF1hIfCT3BlbkFJytrwaOhtOsbYkwwJFyeu')
 
         vector = Chroma.from_documents(splits, embeddings)
         retriever = vector.as_retriever()
