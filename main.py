@@ -12,11 +12,14 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 import openai
 import os
-import dotenv
+# import dotenv
 
-dotenv.load_dotenv()
+# dotenv.load_dotenv()
 
-openai_api_key = os.getenv('OPEN_AI_KEY')
+openai_api_key = os.getenv('OPENAI_API_KEY')
+
+if not openai_api_key:
+    st.error("No OpenAI API key found. Please set the 'OPENAI_API_KEY' environment variable.")
 
 # if not openai_api_key:
 #     raise ValueError("No OpenAI API key found in environment variables. Please set the 'OPENAI_API_KEY' environment variable.")
