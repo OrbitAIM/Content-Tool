@@ -15,8 +15,8 @@ import os
 openai_api_key = os.getenv('API_KEY')
 openai.api_key = openai_api_key
 # print(openai_api_key)
-# # if not openai_api_key:
-# #     raise ValueError("No OpenAI API key found in environment variables. Please set the 'OPENAI_API_KEY' environment variable.")
+if not openai_api_key:
+    raise ValueError("No OpenAI API key found in environment variables. Please set the 'OPENAI_API_KEY' environment variable.")
 # # openai.api_key = openai_api_key
 # #
 # # # Load PDF and process
