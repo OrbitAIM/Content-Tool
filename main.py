@@ -28,7 +28,8 @@ else:
     try:
         pdf_loader = PyPDFLoader(file_path=file_path)
         docs = pdf_loader.load()
-
+        if not docs:
+            st.error("No documents found in the PDF file.")
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         splits = text_splitter.split_documents(docs)
 
