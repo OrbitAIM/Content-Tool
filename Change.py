@@ -67,7 +67,7 @@ prompt = PromptTemplate(
 st.title("AI Content Generator")
 
 
-topic = st.text_input("Content Type",value="")
+topic = st.text_input("topic",value="")
 content_type = st.text_input("Content Type")
 company_name = st.text_input("Company Name")
 product = st.text_input("Product")
