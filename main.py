@@ -11,6 +11,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 import openai
+import sqlite3
 import os
 # import dotenv
 
