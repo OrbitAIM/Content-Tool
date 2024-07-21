@@ -12,7 +12,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 import openai
 import os
-openai_api_key = os.getenv('OPENAI_API_KEY')
+openai_api_key = st.secrets["openai"]["api_key"]
 print(openai_api_key)
 # if not openai_api_key:
 #     raise ValueError("No OpenAI API key found in environment variables. Please set the 'OPENAI_API_KEY' environment variable.")
@@ -21,15 +21,17 @@ print(openai_api_key)
 # # Load PDF and process
 pdf_loader = PyPDFLoader(file_path="emaild(1).pdf")
 docs = pdf_loader.load()
+if not docs:
+    st.error("No documents found in the PDF file.")
 # print(docs)
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 splits = text_splitter.split_documents(docs)
 
-embeddings = OpenAIEmbeddings(api_key='sk-proj-KB64iQAlENuFceKD32iaT3BlbkFJSGnSkcABi8TBjxJCWU7d')
+embeddings = OpenAIEmbeddings(api_key=openai_api_key)
 # print(embeddings)
-llm = ChatOpenAI(model="gpt-4o",api_key='sk-proj-KB64iQAlENuFceKD32iaT3BlbkFJSGnSkcABi8TBjxJCWU7d')
+llm = ChatOpenAI(model="gpt-4o",api_key=openai_api_key)
 # print(llm.invoke("what is open ai"))
-vector = Chroma.from_documents(splits,embeddings)
+vector = FAISS.from_documents(splits, embeddings)
 retriever = vector.as_retriever()
 
 def format_docs(docs):
@@ -65,7 +67,7 @@ prompt = PromptTemplate(
 st.title("AI Content Generator")
 
 
-topic = st.text_input("Content Type",value="")
+topic = st.text_input("topic",value="")
 content_type = st.text_input("Content Type")
 company_name = st.text_input("Company Name")
 product = st.text_input("Product")
