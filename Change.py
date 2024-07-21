@@ -21,6 +21,8 @@ print(openai_api_key)
 # # Load PDF and process
 pdf_loader = PyPDFLoader(file_path="emaild(1).pdf")
 docs = pdf_loader.load()
+if not docs:
+    st.error("No documents found in the PDF file.")
 # print(docs)
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 splits = text_splitter.split_documents(docs)
