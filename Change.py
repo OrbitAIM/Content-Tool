@@ -31,7 +31,7 @@ embeddings = OpenAIEmbeddings(api_key=openai_api_key)
 # print(embeddings)
 llm = ChatOpenAI(model="gpt-4o",api_key=openai_api_key)
 # print(llm.invoke("what is open ai"))
-vector = Chroma.from_documents(splits,embeddings)
+vector = FAISS.from_documents(splits, embeddings)
 retriever = vector.as_retriever()
 
 def format_docs(docs):
