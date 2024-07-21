@@ -29,7 +29,7 @@ file_path = "emaild(1).pdf"
 if not os.path.exists(file_path):
     st.error(f"File not found: {file_path}")
 else:
-    try:
+    # try:
         pdf_loader = PyPDFLoader(file_path=file_path)
         docs = pdf_loader.load()
         if not docs:
