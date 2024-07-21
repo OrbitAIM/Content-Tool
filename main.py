@@ -11,17 +11,9 @@ from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 import openai
-
 import os
-# import dotenv
-
-# dotenv.load_dotenv()
-
-openai_api_key = os.getenv('OPENAI_API_KEY')
-
-if not openai_api_key:
-    st.error("No OpenAI API key found. Please set the 'OPENAI_API_KEY' environment variable.")
-
+openai_api_key = st.secrets["openai"]["api_key"]
+print(openai_api_key)
 # if not openai_api_key:
 #     raise ValueError("No OpenAI API key found in environment variables. Please set the 'OPENAI_API_KEY' environment variable.")
 # openai.api_key = openai_api_key
@@ -29,6 +21,8 @@ if not openai_api_key:
 # # Load PDF and process
 pdf_loader = PyPDFLoader(file_path="emaild(1).pdf")
 docs = pdf_loader.load()
+if not docs:
+    st.error("No documents found in the PDF file.")
 # print(docs)
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 splits = text_splitter.split_documents(docs)
@@ -37,7 +31,7 @@ embeddings = OpenAIEmbeddings(api_key=openai_api_key)
 # print(embeddings)
 llm = ChatOpenAI(model="gpt-4o",api_key=openai_api_key)
 # print(llm.invoke("what is open ai"))
-vector = Chroma.from_documents(splits,embeddings)
+vector = FAISS.from_documents(splits, embeddings)
 retriever = vector.as_retriever()
 
 def format_docs(docs):
@@ -73,24 +67,24 @@ prompt = PromptTemplate(
 st.title("AI Content Generator")
 
 
-
-content_type = st.text_input("Content Type", value="email writer")
-company_name = st.text_input("Company Name", value="efeb")
-product = st.text_input("Product", value="construction")
-painpoint = st.text_input("Pain Point", value="cost")
-benefits = st.text_input("Benefits", value="saving")
-role = st.text_input("Role", value="email writer")
-target_audience = st.text_input("Target Audience", value="school")
-company_link = st.text_input("Company Link", value="epack.in")
-emotion = st.text_input("Emotion", value="happy")
-tone = st.text_input("Tone", value="consultive")
-length = st.number_input("Length", value=100)
+topic = st.text_input("topic",value="")
+content_type = st.text_input("Content Type")
+company_name = st.text_input("Company Name")
+product = st.text_input("Product")
+painpoint = st.text_input("Pain Point")
+benefits = st.text_input("Benefits")
+role = st.text_input("Role")
+target_audience = st.text_input("Target Audience")
+company_link = st.text_input("Company Link")
+emotion = st.text_input("Emotion")
+tone = st.text_input("Tone")
+length = st.number_input("Length")
 
 generate = st.button("Generate Content")
 
 if generate:
     rag_chain = prompt | llm | StrOutputParser()
-    context = retriever.invoke(painpoint)
+    context = retriever.invoke(topic)
     formatted_context = format_docs(context)
     response = rag_chain.invoke({"context":formatted_context, "content_type":content_type, "company_name":company_name, "product":product, "painpoint":painpoint, "benefits":benefits, "role":role, "target_audience":target_audience, "company_link":company_link, "emotion":emotion, "tone":tone, "length":length})
     st.markdown("## Generated Content")
