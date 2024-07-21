@@ -12,7 +12,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 import openai
 import os
-openai_api_key = os.getenv('OPENAI_API_KEY')
+openai_api_key = st.secrets["openai"]["api_key"]
 print(openai_api_key)
 # if not openai_api_key:
 #     raise ValueError("No OpenAI API key found in environment variables. Please set the 'OPENAI_API_KEY' environment variable.")
