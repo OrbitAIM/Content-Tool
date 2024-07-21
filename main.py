@@ -109,5 +109,5 @@ else:
             })
             st.markdown("## Generated Content")
             st.write(response)
-    except Exception as e:
-        st.error(f"An error occurred while processing the PDF file: {e}")
+    # except Exception as e:
+    #     st.error(f"An error occurred while processing the PDF file: {e}")
