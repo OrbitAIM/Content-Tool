@@ -12,6 +12,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 import openai
 import os
+from langchain_huggingface import HuggingFaceEmbeddings
 openai_api_key = os.getenv('OPENAI_API_KEY')
 print(openai_api_key)
 # if not openai_api_key:
@@ -25,7 +26,11 @@ docs = pdf_loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 splits = text_splitter.split_documents(docs)
 
-embeddings = OpenAIEmbeddings(api_key='sk-proj-KB64iQAlENuFceKD32iaT3BlbkFJSGnSkcABi8TBjxJCWU7d')
+embeddings= HuggingFaceEmbeddings(
+    model_name=model_name,
+    model_kwargs=model_kwargs,
+    encode_kwargs=encode_kwargs
+)
 # print(embeddings)
 llm = ChatOpenAI(model="gpt-4o",api_key='sk-proj-KB64iQAlENuFceKD32iaT3BlbkFJSGnSkcABi8TBjxJCWU7d')
 # print(llm.invoke("what is open ai"))
