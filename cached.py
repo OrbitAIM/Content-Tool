@@ -14,7 +14,6 @@ import openai
 import os
 import pickle
 import hashlib
-from langchain_huggingface import HuggingFaceEmbeddings
 
 # OpenAI API key
 openai_api_key = os.getenv('OPENAI_API_KEY')
@@ -46,15 +45,8 @@ docs = pdf_loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=25)
 splits = text_splitter.split_documents(docs)
 
-# Embedding model configuration
-model_name = "sentence-transformers/all-mpnet-base-v2"
-model_kwargs = {'device': 'cpu'}
-encode_kwargs = {'normalize_embeddings': False}
-embeddings = HuggingFaceEmbeddings(
-    model_name=model_name,
-    model_kwargs=model_kwargs,
-    encode_kwargs=encode_kwargs
-)
+# Embedding model configuration for OpenAI
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small", api_key=openai_api_key)
 
 # Function to get embeddings with caching
 def get_embeddings_with_cache(splits):
