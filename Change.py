@@ -20,7 +20,7 @@ print(openai_api_key)
 # openai.api_key = openai_api_key
 #
 # # Load PDF and process
-pdf_loader = PyPDFLoader(file_path="emaild(1).pdf")
+pdf_loader = PyPDFLoader(file_path="Epack Dataset.pdf")
 docs = pdf_loader.load()
 # print(docs)
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
